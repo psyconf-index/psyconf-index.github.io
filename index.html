@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An open, community-driven directory of research conferences and scientific events in psychology and related disciplines.">
   <meta name="color-scheme" content="light dark">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; upgrade-insecure-requests">
   <title>PsyConf Index — Research events in psychology</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <script type="module" src="assets/js/app.js"></script>
@@ -44,8 +44,8 @@
 
       <fieldset class="scope-toggle">
         <legend>Directory scope</legend>
-        <label><input type="radio" name="scope" value="core" checked> Core Psychology only</label>
-        <label><input type="radio" name="scope" value="related"> Include related &amp; interdisciplinary fields</label>
+        <label><input type="radio" name="scope" value="core" autocomplete="off" checked> Core Psychology only</label>
+        <label><input type="radio" name="scope" value="related" autocomplete="off"> Include related &amp; interdisciplinary fields</label>
       </fieldset>
 
       <div class="filters" aria-label="Event filters">
@@ -53,32 +53,42 @@
           <input id="search" type="search" autocomplete="off" placeholder="Title, acronym, city, organizer, or theme">
         </label>
         <label>Sub-discipline
-          <select id="subdiscipline"><option value="">All sub-disciplines</option></select>
+          <select id="subdiscipline" autocomplete="off"><option value="">All sub-disciplines</option></select>
         </label>
         <label>Approach / epistemology
-          <select id="approach"><option value="">All approaches</option></select>
+          <select id="approach" autocomplete="off"><option value="">All approaches</option></select>
         </label>
         <label>Format
-          <select id="format"><option value="">All formats</option><option value="in_person">In-person</option><option value="hybrid">Hybrid</option><option value="online">Online</option></select>
+          <select id="format" autocomplete="off"><option value="">All formats</option><option value="in_person">In-person</option><option value="hybrid">Hybrid</option><option value="online">Online</option></select>
         </label>
         <label>Country
-          <select id="country"><option value="">All countries</option></select>
+          <select id="country" autocomplete="off"><option value="">All countries</option></select>
         </label>
         <label>Language
-          <select id="language"><option value="">All languages</option></select>
+          <select id="language" autocomplete="off"><option value="">All languages</option></select>
         </label>
-        <label class="checkbox-filter"><input id="open-cfp" type="checkbox"> Open CFP only</label>
+        <label class="checkbox-filter"><input id="open-cfp" type="checkbox" autocomplete="off"> Open CFP only</label>
         <label>Sort by
-          <select id="sort"><option value="deadline">Upcoming CFP deadline</option><option value="start">Event start date</option></select>
+          <select id="sort" autocomplete="off"><option value="deadline">Upcoming CFP deadline</option><option value="start">Event start date</option></select>
         </label>
       </div>
 
       <div class="results-toolbar">
-        <p id="result-count" aria-live="polite">Loading events…</p>
-        <button id="export-csv" class="button secondary" type="button">Export current list to CSV</button>
+        <p id="result-count" aria-live="polite">Loading conferences…</p>
+        <div class="results-actions">
+          <label class="per-page-control" for="per-page">Per page
+            <select id="per-page" autocomplete="off" aria-label="Results per page">
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+          <button id="export-csv" class="button secondary" type="button">Export filtered list to CSV (0)</button>
+        </div>
       </div>
       <div id="events" class="events list-view" aria-live="polite"></div>
-      <p id="empty-state" class="empty-state" hidden>No events match these filters. Try broadening your search.</p>
+      <nav id="pagination" class="pagination" aria-label="Pagination" hidden></nav>
+      <p id="empty-state" class="empty-state" hidden>No conferences match these filters. Try broadening your search.</p>
       <p id="load-error" class="error-message" role="alert" hidden>The directory data could not be loaded. Please try again later.</p>
     </section>
 
@@ -98,12 +108,12 @@
       </article>
       <article id="editorial-policy" class="info-panel">
         <p class="eyebrow">Editorial standards</p><h2>Editorial policy</h2>
-        <p>Listings are reviewed for a verifiable scientific committee or transparent review process, research relevance, and organizational and financial transparency. Objective indicators are not quality ratings.</p>
+        <p>Listings are reviewed for research relevance, a verifiable scientific committee or transparent review process, and organizational and financial transparency. Inclusion is not an endorsement.</p>
         <a id="policy-link" href="#editorial-policy">Read the contribution and moderation policy</a>
       </article>
       <article id="about" class="info-panel">
         <p class="eyebrow">About the project</p><h2>Open, independent, collaborative</h2>
-        <p>PsyConf Index is an independent, community-driven open-science directory initiated by [Ton Prénom Nom] in 2026. It is maintained collaboratively by a multidisciplinary curatorial committee.</p>
+        <p>PsyConf Index is an independent, community-driven open-science directory initiated in 2026. It is maintained collaboratively by a multidisciplinary curatorial committee.</p>
         <p><strong>Curatorial committee currently being formed across sub-disciplines and continents — Apply to join via GitHub.</strong></p>
         <a id="join-committee-link" href="#about">Apply to join via GitHub</a>
       </article>
