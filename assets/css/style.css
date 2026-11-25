@@ -101,8 +101,7 @@ input[type="search"], select { min-height: 2.6rem; padding: .45rem .6rem; border
 .pagination button:disabled { opacity: .5; cursor: not-allowed; }
 .pagination-ellipsis { padding-inline: .25rem; color: var(--muted); }
 .empty-state, .error-message { padding: 1rem; border-radius: .45rem; background: var(--surface); }
-.error-message { color: var(--error); }
-.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 1rem; padding-bottom: 3rem; }
+.error-message { color: var(--error); }.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 1rem; border-top: 1px solid var(--line); padding-block: 2.75rem 3rem; }
 .info-panel { padding: 1.2rem; border: 1px solid var(--line); border-radius: .55rem; background: var(--surface); }
 .info-panel p:last-child { margin-bottom: 0; }
 .about-section { border-top: 1px solid var(--line); padding-block: 2.75rem 3.25rem; }
