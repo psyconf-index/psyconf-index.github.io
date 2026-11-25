@@ -71,6 +71,9 @@ h3 { font-size: 1.15rem; line-height: 1.35; margin-bottom: .55rem; }
 input[type="search"], select { min-height: 2.6rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--page); }
 .results-toolbar { padding-block: 1rem .7rem; }
 #result-count { margin: 0; color: var(--muted); font-size: .92rem; }
+.results-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+.per-page-control { display: flex; align-items: center; gap: .45rem; font-size: .9rem; font-weight: 650; }
+.per-page-control select { min-height: 2.4rem; padding-block: .3rem; }
 .events { display: grid; gap: .8rem; }
 .event { min-width: 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .55rem; background: var(--surface); }
 .event h3 a { color: var(--ink); text-decoration: none; }
@@ -89,6 +92,13 @@ input[type="search"], select { min-height: 2.6rem; padding: .45rem .6rem; border
 .detail-grid dd { margin: .1rem 0 0; }
 .events.card-view { grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); }
 .events.card-view .event { height: 100%; }
+.pagination { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .35rem; margin-top: 1.25rem; }
+.pagination[hidden] { display: none; }
+.pagination button { min-width: 2.5rem; min-height: 2.5rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--surface); color: var(--ink); cursor: pointer; }
+.pagination button:hover:not(:disabled) { border-color: var(--accent); }
+.pagination button[aria-current="page"] { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); font-weight: 700; }
+.pagination button:disabled { opacity: .5; cursor: not-allowed; }
+.pagination-ellipsis { padding-inline: .25rem; color: var(--muted); }
 .empty-state, .error-message { padding: 1rem; border-radius: .45rem; background: var(--surface); }
 .error-message { color: var(--error); }
 .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 1rem; padding-bottom: 3rem; }
@@ -98,10 +108,12 @@ input[type="search"], select { min-height: 2.6rem; padding: .45rem .6rem; border
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; padding-block: 1.2rem; }
 .footer-inner p { margin: 0; }
 :focus-visible { outline: 3px solid #e29b26; outline-offset: 3px; }
+
 @media (max-width: 620px) {
   .header-inner { align-items: flex-start; flex-direction: column; }
   nav { gap: .45rem .8rem; }
   .section-heading, .results-toolbar { align-items: flex-start; flex-direction: column; }
+  .results-actions { width: 100%; justify-content: space-between; }
   .intro { margin-inline: auto; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
