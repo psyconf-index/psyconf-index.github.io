@@ -66,7 +66,8 @@ h3 { font-size: 1.15rem; line-height: 1.35; margin-bottom: .55rem; }
 .scope-toggle legend { font-weight: 750; padding-inline: .35rem; }
 .scope-toggle label, .checkbox-filter { display: flex; gap: .45rem; align-items: center; }
 .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: .85rem; padding: 1rem; border: 1px solid var(--line); border-radius: .55rem; background: var(--surface); }
-.filters label { display: grid; gap: .3rem; font-size: .86rem; font-weight: 700; }
+.filters label { display: grid; gap: .3rem; min-width: 0; font-size: .86rem; font-weight: 700; }
+.filters input[type="search"], .filters select { width: 100%; max-width: 100%; min-width: 0; text-overflow: ellipsis; }
 .filters .checkbox-filter { display: flex; align-self: end; padding-bottom: .6rem; }
 input[type="search"], select { min-height: 2.6rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--page); }
 .results-toolbar { padding-block: 1rem .7rem; }
