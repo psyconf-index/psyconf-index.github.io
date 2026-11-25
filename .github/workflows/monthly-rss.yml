@@ -1,0 +1,41 @@
+name: Monthly RSS
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'scripts/generate-rss.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-rss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate RSS feeds
+        run: node scripts/generate-rss.mjs
+
+      - name: Commit updated RSS feeds
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rss/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(rss): update monthly RSS feeds"
+            git push
+          else
+            echo "No RSS changes to commit."
+          fi
