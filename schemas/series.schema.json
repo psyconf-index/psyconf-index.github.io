@@ -37,6 +37,9 @@
       "contact_email": {"type": "string", "format": "email", "maxLength": 254},
       "contact_url": {"type": "string", "format": "uri", "pattern": "^https://"}
     },
-    "anyOf": [{"required": ["contact_email"]}, {"required": ["contact_url"]}]
+    "anyOf": [
+      {"properties": {"contact_email": {}}, "required": ["contact_email"]},
+      {"properties": {"contact_url": {}}, "required": ["contact_url"]}
+    ]
   }
 }
