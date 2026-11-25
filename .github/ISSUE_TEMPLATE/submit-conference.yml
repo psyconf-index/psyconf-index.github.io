@@ -1,0 +1,108 @@
+name: Submit a conference or scientific event
+description: Suggest a new event series or edition for editorial review.
+title: "[Submission]: "
+labels:
+  - submission
+  - needs-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing to PsyConf Index. Please provide accurate, publicly verifiable information. All submissions are reviewed before publication.
+  - type: dropdown
+    id: submission_kind
+    attributes:
+      label: What are you submitting?
+      options:
+        - A new event series and its next edition
+        - A new edition of an existing listed series
+    validations:
+      required: true
+  - type: input
+    id: event_name
+    attributes:
+      label: Event or series name
+      placeholder: Full official name
+    validations:
+      required: true
+  - type: input
+    id: acronym
+    attributes:
+      label: Acronym
+    validations:
+      required: false
+  - type: input
+    id: organizer
+    attributes:
+      label: Organizing body
+      description: Include an official society, university, institute, non-profit, or consortium.
+    validations:
+      required: true
+  - type: input
+    id: official_url
+    attributes:
+      label: Official event or series website
+      description: Provide an HTTPS URL.
+      placeholder: https://
+    validations:
+      required: true
+  - type: input
+    id: edition_title
+    attributes:
+      label: Edition title
+      description: Include the year or edition number where applicable.
+    validations:
+      required: false
+  - type: input
+    id: dates
+    attributes:
+      label: Event dates
+      description: Use YYYY-MM-DD for both start and end dates.
+      placeholder: 2027-06-14 to 2027-06-16
+    validations:
+      required: false
+  - type: input
+    id: cfp_deadline
+    attributes:
+      label: Call for papers deadline
+      description: Use YYYY-MM-DD, or state that no call for papers is open.
+    validations:
+      required: false
+  - type: input
+    id: location
+    attributes:
+      label: Format and location
+      description: State in-person, hybrid, or online; include city and country for in-person events.
+    validations:
+      required: true
+  - type: input
+    id: scope
+    attributes:
+      label: Relevant disciplines or interfaces
+      description: Briefly describe the psychology research scope or adjacent field.
+    validations:
+      required: true
+  - type: textarea
+    id: review_transparency
+    attributes:
+      label: Scientific review and committee
+      description: Link or describe the scientific committee and abstract or paper review process.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: fees_funding
+    attributes:
+      label: Registration fees and funding transparency
+      description: Include fees if available and identify sponsors or funders.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: supporting_information
+    attributes:
+      label: Additional evidence or notes
+      description: Share public sources that help moderators assess the event.
+      render: markdown
+    validations:
+      required: false

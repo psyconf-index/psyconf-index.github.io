@@ -1,0 +1,53 @@
+name: Report a correction or update
+description: Report an error, cancellation, deadline change, or other event update.
+title: "[Update]: "
+labels:
+  - update
+  - needs-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please link the relevant directory record and provide a public source for the proposed change where possible.
+  - type: input
+    id: record
+    attributes:
+      label: Event or edition title
+      description: Copy the title as shown in the directory.
+    validations:
+      required: true
+  - type: dropdown
+    id: update_type
+    attributes:
+      label: Type of report
+      options:
+        - Correction
+        - CFP deadline update
+        - Date or location change
+        - Cancellation or postponement
+        - Fee, funding, or sponsor update
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What should be changed?
+      description: State the current information and the proposed correction.
+      render: markdown
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Public source URL
+      description: Link to an official event or organizer source (HTTPS preferred).
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact email (optional)
+      description: For moderator follow-up only; do not include sensitive information.
+    validations:
+      required: false
