@@ -5,18 +5,29 @@ import { downloadCsv } from './export-csv.js';
 const DATA_PATHS = { series: 'data/series.json', editions: 'data/editions.json' };
 const GITHUB_BASE = 'https://github.com/psyconf-index/psyconf-index.github.io';
 const elements = {
-  events: document.getElementById('events'), search: document.getElementById('search'),
-  subdiscipline: document.getElementById('subdiscipline'), approach: document.getElementById('approach'),
-  format: document.getElementById('format'), country: document.getElementById('country'),
-  language: document.getElementById('language'), openCfp: document.getElementById('open-cfp'),
-  sort: document.getElementById('sort'), count: document.getElementById('result-count'),
-  empty: document.getElementById('empty-state'), error: document.getElementById('load-error'),
-  export: document.getElementById('export-csv'), listView: document.getElementById('list-view'),
+  directory: document.getElementById('directory'),
+  events: document.getElementById('events'),
+  search: document.getElementById('search'),
+  subdiscipline: document.getElementById('subdiscipline'),
+  approach: document.getElementById('approach'),
+  format: document.getElementById('format'),
+  country: document.getElementById('country'),
+  language: document.getElementById('language'),
+  openCfp: document.getElementById('open-cfp'),
+  sort: document.getElementById('sort'),
+  count: document.getElementById('result-count'),
+  perPage: document.getElementById('per-page'),
+  pagination: document.getElementById('pagination'),
+  empty: document.getElementById('empty-state'),
+  error: document.getElementById('load-error'),
+  export: document.getElementById('export-csv'),
+  listView: document.getElementById('list-view'),
   cardView: document.getElementById('card-view')
 };
 let seriesList = [];
 let editions = [];
 let currentResults = [];
+let currentPage = 1;
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 const safeExternalUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value);
@@ -158,15 +169,93 @@ function readControls() {
   };
 }
 
+function addPageButton(label, page, { current = false, disabled = false, ariaLabel = '' } = {}) {
+  const button = make('button', '', label);
+  button.type = 'button';
+  button.disabled = disabled;
+  if (ariaLabel) button.setAttribute('aria-label', ariaLabel);
+  if (current) button.setAttribute('aria-current', 'page');
+  if (!disabled && !current) {
+    button.addEventListener('click', () => {
+      currentPage = page;
+      render();
+      elements.directory.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+  elements.pagination.append(button);
+}
+
+function pageNumbers(totalPages) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = [1];
+  const start = Math.max(2, currentPage - 1);
+  const end = Math.min(totalPages - 1, currentPage + 1);
+
+  if (start > 2) pages.push('…');
+  for (let page = start; page <= end; page += 1) pages.push(page);
+  if (end < totalPages - 1) pages.push('…');
+  pages.push(totalPages);
+  return pages;
+}
+
+function renderPagination(totalPages) {
+  elements.pagination.replaceChildren();
+  elements.pagination.hidden = totalPages <= 1;
+  if (totalPages <= 1) return;
+
+  addPageButton('Previous', currentPage - 1, {
+    disabled: currentPage === 1,
+    ariaLabel: 'Previous page'
+  });
+
+  for (const page of pageNumbers(totalPages)) {
+    if (page === '…') {
+      elements.pagination.append(make('span', 'pagination-ellipsis', '…'));
+    } else {
+      addPageButton(String(page), page, {
+        current: page === currentPage,
+        ariaLabel: `Page ${page}`
+      });
+    }
+  }
+
+  addPageButton('Next', currentPage + 1, {
+    disabled: currentPage === totalPages,
+    ariaLabel: 'Next page'
+  });
+}
+
 function render() {
   currentResults = filterAndSortEditions(editions, seriesList, readControls(), todayISO());
+
+  const perPage = Number(elements.perPage.value) || 20;
+  const totalResults = currentResults.length;
+  const totalPages = Math.ceil(totalResults / perPage);
+  currentPage = Math.min(Math.max(currentPage, 1), Math.max(totalPages, 1));
+
+  const startIndex = (currentPage - 1) * perPage;
+  const pageResults = currentResults.slice(startIndex, startIndex + perPage);
   elements.events.replaceChildren();
-  for (const edition of currentResults) {
+
+  for (const edition of pageResults) {
     const eventNode = renderEvent(edition);
     if (eventNode) elements.events.append(eventNode);
   }
-  elements.count.textContent = `${currentResults.length} event${currentResults.length === 1 ? '' : 's'} shown`;
-  elements.empty.hidden = currentResults.length > 0;
+
+  if (totalResults === 0) {
+    elements.count.textContent = 'Showing 0 conferences';
+  } else {
+    const firstResult = startIndex + 1;
+    const lastResult = Math.min(startIndex + perPage, totalResults);
+    elements.count.textContent = `Showing ${firstResult}–${lastResult} of ${totalResults} conferences`;
+  }
+
+  elements.export.textContent = `Export filtered list to CSV (${totalResults})`;
+  elements.empty.hidden = totalResults > 0;
+  renderPagination(totalPages);
 }
 
 function exportCurrentResults() {
@@ -176,6 +265,7 @@ function exportCurrentResults() {
   ]];
   for (const edition of currentResults) {
     const series = seriesFor(edition);
+    if (!series) continue;
     rows.push([
       edition.short_title, series.name, series.acronym, edition.short_description,
       edition.start_date, edition.end_date, edition.cfp_deadline || '', formatLabel(edition.format),
@@ -183,6 +273,11 @@ function exportCurrentResults() {
     ]);
   }
   downloadCsv(rows);
+}
+
+function resetPageAndRender() {
+  currentPage = 1;
+  render();
 }
 
 function setView(view) {
@@ -214,11 +309,18 @@ async function initialize() {
     populateSelect(elements.language, editions.flatMap((edition) => edition.languages ?? []));
     render();
 
-    for (const control of [elements.search, elements.subdiscipline, elements.approach, elements.format, elements.country, elements.language, elements.openCfp, elements.sort]) {
-      control.addEventListener('input', render);
-      control.addEventListener('change', render);
+    const filterControls = [
+      elements.search, elements.subdiscipline, elements.approach, elements.format,
+      elements.country, elements.language, elements.openCfp, elements.sort
+    ];
+    for (const control of filterControls) {
+      control.addEventListener('input', resetPageAndRender);
+      control.addEventListener('change', resetPageAndRender);
     }
-    document.querySelectorAll('input[name="scope"]').forEach((input) => input.addEventListener('change', render));
+    document.querySelectorAll('input[name="scope"]').forEach((input) => {
+      input.addEventListener('change', resetPageAndRender);
+    });
+    elements.perPage.addEventListener('change', resetPageAndRender);
     elements.export.addEventListener('click', exportCurrentResults);
     elements.listView.addEventListener('click', () => setView('list'));
     elements.cardView.addEventListener('click', () => setView('card'));
