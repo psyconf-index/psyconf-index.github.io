@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An open, community-driven directory of research conferences and scientific events in psychology and related disciplines.">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <title>PsyConf Index — Research events in psychology</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script type="module" src="assets/js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="PsyConf Index home">PsyConf <span>Index</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#directory">Directory</a>
+        <a id="submit-event-link" href="#submit-event">Submit an Event</a>
+        <a href="#rss">RSS Feeds</a>
+        <a href="#editorial-policy">Editorial Policy</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="intro container" id="top" aria-labelledby="page-title">
+      <p class="eyebrow">An open-science directory</p>
+      <h1 id="page-title">Find research events in psychology and related fields.</h1>
+      <p class="intro-copy">A community-curated, non-commercial index of conferences, colloquia, symposia, and scientific days. Listings are reviewed for research relevance and organizational transparency.</p>
+      <p class="example-notice"><strong>Preview data:</strong> The events shown are illustrative examples, not real announcements. Please replace them with verified records before public use.</p>
+    </section>
+
+    <section class="container directory-section" id="directory" aria-labelledby="directory-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Browse the directory</p><h2 id="directory-title">Upcoming events</h2></div>
+        <div class="view-controls" role="group" aria-label="Display options">
+          <button id="list-view" class="view-button active" type="button" aria-pressed="true">List view</button>
+          <button id="card-view" class="view-button" type="button" aria-pressed="false">Card view</button>
+        </div>
+      </div>
+
+      <fieldset class="scope-toggle">
+        <legend>Directory scope</legend>
+        <label><input type="radio" name="scope" value="core" checked> Core Psychology only</label>
+        <label><input type="radio" name="scope" value="related"> Include related &amp; interdisciplinary fields</label>
+      </fieldset>
+
+      <div class="filters" aria-label="Event filters">
+        <label class="search-field">Keyword search
+          <input id="search" type="search" autocomplete="off" placeholder="Title, acronym, city, organizer, or theme">
+        </label>
+        <label>Sub-discipline
+          <select id="subdiscipline"><option value="">All sub-disciplines</option></select>
+        </label>
+        <label>Approach / epistemology
+          <select id="approach"><option value="">All approaches</option></select>
+        </label>
+        <label>Format
+          <select id="format"><option value="">All formats</option><option value="in_person">In-person</option><option value="hybrid">Hybrid</option><option value="online">Online</option></select>
+        </label>
+        <label>Country
+          <select id="country"><option value="">All countries</option></select>
+        </label>
+        <label>Language
+          <select id="language"><option value="">All languages</option></select>
+        </label>
+        <label class="checkbox-filter"><input id="open-cfp" type="checkbox"> Open CFP only</label>
+        <label>Sort by
+          <select id="sort"><option value="deadline">Upcoming CFP deadline</option><option value="start">Event start date</option></select>
+        </label>
+      </div>
+
+      <div class="results-toolbar">
+        <p id="result-count" aria-live="polite">Loading events…</p>
+        <button id="export-csv" class="button secondary" type="button">Export current list to CSV</button>
+      </div>
+      <div id="events" class="events list-view" aria-live="polite"></div>
+      <p id="empty-state" class="empty-state" hidden>No events match these filters. Try broadening your search.</p>
+      <p id="load-error" class="error-message" role="alert" hidden>The directory data could not be loaded. Please try again later.</p>
+    </section>
+
+    <section class="container info-grid" aria-label="Project information">
+      <article id="rss" class="info-panel">
+        <p class="eyebrow">Stay informed</p><h2>RSS feeds</h2>
+        <p>Subscribe to this month’s events or submission deadlines in your preferred feed reader.</p>
+        <ul>
+          <li><a href="rss/events-this-month.xml">Events this month</a></li>
+          <li><a href="rss/deadlines-this-month.xml">Submission deadlines this month</a></li>
+        </ul>
+      </article>
+      <article id="submit-event" class="info-panel">
+        <p class="eyebrow">Contribute</p><h2>Submit an event</h2>
+        <p>Suggest a research event for editorial review. Submissions are not automatic listings or endorsements.</p>
+        <a id="submit-event-button" class="button primary" href="#submit-event">Open the submission form</a>
+      </article>
+      <article id="editorial-policy" class="info-panel">
+        <p class="eyebrow">Editorial standards</p><h2>Editorial policy</h2>
+        <p>Listings are reviewed for a verifiable scientific committee or transparent review process, research relevance, and organizational and financial transparency. Objective indicators are not quality ratings.</p>
+        <a id="policy-link" href="#editorial-policy">Read the contribution and moderation policy</a>
+      </article>
+      <article id="about" class="info-panel">
+        <p class="eyebrow">About the project</p><h2>Open, independent, collaborative</h2>
+        <p>PsyConf Index is an independent, community-driven open-science directory initiated by [Ton Prénom Nom] in 2026. It is maintained collaboratively by a multidisciplinary curatorial committee.</p>
+        <p><strong>Curatorial committee currently being formed across sub-disciplines and continents — Apply to join via GitHub.</strong></p>
+        <a id="join-committee-link" href="#about">Apply to join via GitHub</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>PsyConf Index is a non-commercial community resource. Event records are subject to editorial review.</p>
+      <p><a href="#editorial-policy">Editorial policy</a> · <a href="#about">About</a></p>
+    </div>
+  </footer>
+</body>
+</html>

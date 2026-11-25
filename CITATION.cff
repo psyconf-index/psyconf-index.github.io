@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use PsyConf Index, please cite it as below. Replace the initial maintainer placeholder before public release."
+title: "PsyConf Index"
+type: software
+authors:
+  - family-names: "[Ton Prénom Nom]"
+    affiliation: "PsyConf Index"
+version: 1.0.0
+date-released: 2026-11-25
+license: MIT
+repository-code: "https://github.com/psyconf-index/psyconf-index.github.io"
+url: "https://psyconf-index.github.io/"
+abstract: "An open, community-driven, non-commercial directory of research events in Psychology and related disciplines."

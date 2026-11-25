@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://psyconf-index.github.io/schemas/series.schema.json",
+  "title": "PsyConf Index event series",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["series_id", "name", "acronym", "type", "frequency", "organizer", "organizer_type", "scope_circle", "subdisciplines", "approaches", "themes", "orientation", "typical_cfp_month", "reliability", "official_website"],
+    "properties": {
+      "series_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "minLength": 2, "maxLength": 80},
+      "name": {"type": "string", "minLength": 2, "maxLength": 200},
+      "acronym": {"type": "string", "minLength": 1, "maxLength": 30},
+      "type": {"enum": ["conference", "colloquium", "symposium", "scientific_day", "summer_school"]},
+      "frequency": {"enum": ["annual", "biennial", "triennial", "one_off", "irregular"]},
+      "organizer": {"type": "string", "minLength": 2, "maxLength": 200},
+      "organizer_type": {"enum": ["learned_society", "university", "research_institute", "non_profit", "consortium"]},
+      "scope_circle": {"enum": ["core_psychology", "interface_related", "neighboring_track"]},
+      "subdisciplines": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9 -]{1,39}$"}},
+      "approaches": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9 -]{1,39}$"}},
+      "themes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9 -]{1,39}$"}},
+      "orientation": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["fundamental", "applied", "scientist_practitioner", "clinical_research"]}},
+      "typical_cfp_month": {"type": ["integer", "null"], "minimum": 1, "maximum": 12},
+      "reliability": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["backed_by_society_or_uni", "identifiable_scientific_committee", "peer_reviewed", "founding_year", "estimated_size"],
+        "properties": {
+          "backed_by_society_or_uni": {"type": "boolean"},
+          "identifiable_scientific_committee": {"type": "boolean"},
+          "peer_reviewed": {"type": "boolean"},
+          "founding_year": {"type": ["integer", "null"], "minimum": 1800, "maximum": 2200},
+          "estimated_size": {"enum": ["<100", "100-500", "500-2000", ">2000"]}
+        }
+      },
+      "official_website": {"type": "string", "format": "uri", "pattern": "^https://"},
+      "contact_email": {"type": "string", "format": "email", "maxLength": 254},
+      "contact_url": {"type": "string", "format": "uri", "pattern": "^https://"}
+    },
+    "anyOf": [{"required": ["contact_email"]}, {"required": ["contact_url"]}]
+  }
+}
